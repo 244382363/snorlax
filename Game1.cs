@@ -17,14 +17,17 @@ namespace snorlax
         winggulls gull;
         background bgd;
         snorfig sface, smouth, sbody;
+        poffin poffin;
 
-        float spawnRate, timeTillSpawn;
+        float spawns;
         int winggullsPerSpawn;
 
 
         winggulls[] gulls;
+        poffin[] poffins;
+        const int _poffins = 1000;
         const int winggulls = 50;
-        const float BASESPAWNRATE = 5;
+        //const float BASESPAWNRATE = 5;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -38,7 +41,7 @@ namespace snorlax
         protected override void Initialize()
         {
             gulls = new winggulls[winggulls];
-
+            poffins = new poffin[_poffins];
             base.Initialize();
         }
 
@@ -55,6 +58,7 @@ namespace snorlax
                 gulls[i] = new winggulls(Content.Load<Texture2D>("gull"), RNG.Next(0,1024), RNG.Next(100, 400), RNG.Next(-2, 2));
 
             }
+            poffin = new poffin(Content.Load<Texture2D>("poffin"), 400, 0);
 
         }
 
@@ -62,13 +66,32 @@ namespace snorlax
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            /*for (int i = 0; i < poffins.Count; i++)
+            {
+                if (poffins[i].GetState() == poffinState.Crashed)
+                {
+                    
+                    poffins.RemoveAt(i);
+                    break;
+                }
+            }*/
             for (int i = 0; i < gulls.Length; i++)
             {
                 gulls[i].UpdateMe(1000, 300);
             }
 
-            if (timeTillSpawn < 0)
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                // Spawn poffin at the top center
+                for (int i = 0; i < poffins.Length; i++)
+                {
+                    poffins[i] = new poffin(Content.Load<Texture2D>("poffin"), 500, 0);
+                }
+                
+            }
+            //poffins[i].UpdateMe(_graphics.PreferredBackBufferHeight);
+
+            /*if (spawns < 0)
             {
                
 
@@ -85,8 +108,8 @@ namespace snorlax
                 }
 
                 timeTillSpawn = spawnRate;
-            }
-            
+            }*/
+
 
             base.Update(gameTime);
         }
@@ -99,6 +122,15 @@ namespace snorlax
             //sface.DrawMe(_spriteBatch);
             sbody.DrawMe(_spriteBatch);
             //smouth.DrawMe(_spriteBatch);
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                // Spawn poffin at the top center
+                for (int i = 0; i < poffins.Length; i++)
+                {
+                    poffins[i] = new poffin(Content.Load<Texture2D>("poffin"), 500, 500);
+                }
+
+            }
             for (int i = 0; i < gulls.Length; i++)
             {
 
