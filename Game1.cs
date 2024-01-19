@@ -122,10 +122,9 @@ namespace snorlax
             //sface.DrawMe(_spriteBatch);
             sbody.DrawMe(_spriteBatch);
             //smouth.DrawMe(_spriteBatch);
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            for (int i = 0; i < poffins.Length; i++)               
             {
-                // Spawn poffin at the top center
-                for (int i = 0; i < poffins.Length; i++)
+                if (Mouse.GetState().LeftButton == ButtonState.Pressed)                      
                 {
                     poffins[i] = new poffin(Content.Load<Texture2D>("poffin"), 500, 500);
                 }
